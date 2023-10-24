@@ -1,0 +1,16 @@
+# ignore
+*.code-workspace
+*.log
+options/
+
+# ignore datasets but remain datasets/README.md
+datasets/*
+!datasets/README.md
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# ignore tb_logger
+tb_logger/
