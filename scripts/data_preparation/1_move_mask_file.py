@@ -1,24 +1,28 @@
+# ------------------------------------------------------------------------
+# Copyright (c) 2023 Siwei Li.
+# ------------------------------------------------------------------------
 import os
 import shutil
 
+# source directory and target directory (modify according to your actual path)
+src_dir = "../../datasets/GoPro/train/input"
+tar_dir = "../../datasets/GoPro/train/input_mask"
+
+
 def move_and_rename_files(src_dir, tar_dir):
-    # 确保目标文件夹存在
+    # ensure the target folder exists
     if not os.path.exists(tar_dir):
         os.makedirs(tar_dir)
 
-    # 列出源目录中的所有文件和文件夹
+    # list all the files and folders in the source directory
     for filename in os.listdir(src_dir):
         if filename.startswith("mask_"):
             src_path = os.path.join(src_dir, filename)
             new_filename = filename.replace("mask_", "", 1)
             tar_path = os.path.join(tar_dir, new_filename)
 
-            # 移动并重命名文件
+            # move and rename files
             shutil.move(src_path, tar_path)
             print(f"Moved {src_path} to {tar_path}")
-
-# 源目录和目标目录（根据你的实际路径进行修改）
-src_dir = "/home/henryli/project/NAFNet/datasets/ReLoBlur/test/input"
-tar_dir = "/home/henryli/project/NAFNet/datasets/ReLoBlur/test/input_mask"
 
 move_and_rename_files(src_dir, tar_dir)

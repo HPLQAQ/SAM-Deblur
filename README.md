@@ -19,7 +19,7 @@ Todo:
 This implementation is based on [BasicSR](https://github.com/xinntao/BasicSR) which is an open source toolbox for image/video restoration tasks.
 
 ```python
-python 3.10.13
+python 3.9
 pytorch 1.13.1
 cuda 12.2
 ```
@@ -31,7 +31,8 @@ conda install pytorch==1.13.1 torchvision==0.14.1 -c pytorch
 ```
 
 ```
-cd NAFNet
+git clone git@github.com:HPLQAQ/SAM-Deblur.git
+cd SAM-Deblur
 pip install -r requirements.txt
 python setup.py develop --no_cuda_ext
 ```
