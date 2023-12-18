@@ -38,11 +38,11 @@ pip install -e .
 ```
 ### Prepare Data and Pre-trained Models
 
-Download pre-trained models for experiments from [Baidu Netdisk](https://pan.baidu.com/s/109TCMu7_ZuedUz8qG-Q0IQ?pwd=hplv)|[Onedrive](https://1drv.ms/f/s!Ar-cR-XYHDTtgt8yuujyjIENc_B11g?e=LzoHrG).
+Download pre-trained models for experiments from [Baidu Netdisk](https://pan.baidu.com/s/109TCMu7_ZuedUz8qG-Q0IQ?pwd=hplv)|[Onedrive](https://1drv.ms/f/s!Ar-cR-XYHDTtgt8yuujyjIENc_B11g?e=LzoHrG).  
 Put under **experiments/pretrained_models**.
 
-Download prepared data for experiments from [Baidu Netdisk](https://pan.baidu.com/s/1jHgwKqFuyyy8yixByiEfCg?pwd=hplv)|[Onedrive](https://1drv.ms/f/s!Ar-cR-XYHDTtgt8pYy2MBqQvroXl-Q?e=U7o4xc).
-If you only want to run our deblur pipeline, download test/val datasets(GoPro, RealBlurJ, REDS, ReLoBlur provided). if you want to train the model yourself, download train datasets(GoPro provided).
+Download prepared data for experiments from [Baidu Netdisk](https://pan.baidu.com/s/1jHgwKqFuyyy8yixByiEfCg?pwd=hplv)|[Onedrive](https://1drv.ms/f/s!Ar-cR-XYHDTtgt8pYy2MBqQvroXl-Q?e=U7o4xc).  
+If you only want to run our deblur pipeline, download test/val datasets(GoPro, RealBlurJ, REDS, ReLoBlur provided). if you want to train the model yourself, download train datasets(GoPro provided).  
 Unzip data and put under **datasets** dir for experiments.
 
 Prepared data comes from original datasets which are processed using code under **scripts/data_preparation**. *Use datasets uploaded above and your don't have to run the scripts your self.*
