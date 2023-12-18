@@ -8,6 +8,8 @@ pyyaml
 requests
 scikit-image
 scipy
+einops
 tb-nightly
+ptflops
 tqdm
 yapf

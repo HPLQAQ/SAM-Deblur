@@ -262,7 +262,7 @@ class ImageRestorationModel(BaseModel):
             self.output = torch.cat(outs, dim=0)
         self.net_g.train()
 
-    def dist_validation(self, dataloader, current_iter, tb_logger, save_img, rgb2bgr, use_image):
+    def dist_validation(self, dataloader, current_iter, tb_logger, save_img, rgb2bgr, use_image, nondist = False):
         dataset_name = dataloader.dataset.opt['name']
         with_metrics = self.opt['val'].get('metrics') is not None
         if with_metrics:
@@ -370,7 +370,8 @@ class ImageRestorationModel(BaseModel):
             keys.append(name)
             metrics.append(value)
         metrics = torch.stack(metrics, 0)
-        torch.distributed.reduce(metrics, dst=0)
+        if not nondist:
+            torch.distributed.reduce(metrics, dst=0)
         if self.opt['rank'] == 0:
             metrics_dict = {}
             cnt = 0
@@ -390,7 +391,7 @@ class ImageRestorationModel(BaseModel):
     def nondist_validation(self, *args, **kwargs):
         logger = get_root_logger()
         logger.warning('nondist_validation is not implemented. Run dist_validation.')
-        self.dist_validation(*args, **kwargs)
+        self.dist_validation(*args, **kwargs, nondist = True)
 
 
     def _log_validation_metric_values(self, current_iter, dataset_name,

@@ -1,56 +1,47 @@
-# ------------------------------------------------------------------------
-# Copyright (c) 2023 Siwei Li.
-# ------------------------------------------------------------------------
-# Modified from NAFNet (https://github.com/megvii-research/NAFNet)
-# Copyright 2023 NAFNet Authors
-# ------------------------------------------------------------------------
-# general settings
-name: NAFNet-GoPro-width64
+name: NAFNet-GoPro
 model_type: ImageRestorationModel
 scale: 1
-num_gpu: 4
-manual_seed: 10
+num_gpu: 1
+manual_seed: 42
 
 datasets:
   train:
     name: gopro-train
-    type: PairedImageMaskDataset
-    dataroot_gt: ./datasets/GoPro/train/sharp_crops.lmdb
-    dataroot_lq: ./datasets/GoPro/train/blur_crops.lmdb
-    dataroot_mask: ./datasets/GoPro/train/input_predict_mask_crops.lmdb
+    type: PairedImageDataset
+    dataroot_gt: ./datasets/GoPro/train/sharp_crops
+    dataroot_lq: ./datasets/GoPro/train/blur_crops
     filename_tmpl: '{}'
     io_backend:
-      type: lmdb
+      type: disk
 
     gt_size: 256
     use_flip: true
     use_rot: true
+    use_shuffle: True
 
     # data loader
     use_shuffle: true
-    num_worker_per_gpu: 8
-    batch_size_per_gpu: 8
+    num_worker_per_gpu: 16
+    batch_size_per_gpu: 32
     dataset_enlarge_ratio: 1
     prefetch_mode: ~
 
   val:
     name: gopro-test
-    type: PairedImageMaskDataset
-    dataroot_gt: ./datasets/GoPro/test/target.lmdb
-    dataroot_lq: ./datasets/GoPro/test/input.lmdb
-    dataroot_mask: ./datasets/GoPro/test/input_predict_mask.lmdb
+    type: PairedImageDataset
+    dataroot_gt: ./datasets/GoPro/test/target
+    dataroot_lq: ./datasets/GoPro/test/input
     io_backend:
-      type: lmdb
-
-
+      type: disk
+      
 network_g:
   type: NAFNetLocal
-  width: 64
-  mask: True
+  width: 32
+  mask: False
   enc_blk_nums: [1, 1, 1, 28]
   middle_blk_num: 1
   dec_blk_nums: [1, 1, 1, 1]
-
+  
 # path
 path:
   pretrain_network_g: ~
@@ -67,10 +58,10 @@ train:
 
   scheduler:
     type: TrueCosineAnnealingLR
-    T_max: 100000
+    T_max: 200000
     eta_min: !!float 1e-7
 
-  total_iter: 100000
+  total_iter: 200000
   warmup_iter: -1 # no warm up
 
   # losses
@@ -81,9 +72,8 @@ train:
 
 # validation settings
 val:
-  val_freq: !!float 1e2
+  val_freq: !!float 1e4
   save_img: false
-
 
   metrics:
     psnr: # metric name, can be arbitrary

@@ -22,11 +22,12 @@ from basicsr.models.archs.NAFNet_arch import NAFBlock
 
 class SegNAFNet(nn.Module):
 
-    def __init__(self, img_channel=3, seg_channel=3, width=16, middle_blk_num=1, enc_blk_nums=[], dec_blk_nums=[]):
+    def __init__(self, img_channel=3, seg_channel=3, width=16, middle_blk_num=1, mask_dropout = 0.5, enc_blk_nums=[], dec_blk_nums=[]):
         super().__init__()
         
         self.img_channel = img_channel
-        
+        self.mask_dropout = mask_dropout
+
         self.pre_seg = nn.Conv2d(in_channels=img_channel, out_channels=seg_channel, kernel_size=3, padding=1, stride=1, groups=1,
                               bias=True)
         self.pre_seg_in = nn.Conv2d(in_channels=seg_channel, out_channels=seg_channel, kernel_size=1, padding=0, stride=1, groups=1,
@@ -74,7 +75,8 @@ class SegNAFNet(nn.Module):
             )
 
         self.padder_size = 2 ** len(self.encoders)
-    def mask_average(self, image, masks, dropout=0.5, is_training=True):
+
+    def mask_average(self, image, masks, dropout, is_training=True):
         """
         Compute the average value for each mask area in the image and assign it to the entire mask area.
         
@@ -112,7 +114,7 @@ class SegNAFNet(nn.Module):
         # Update the result tensor with the average values (broadcast over H, W dimensions)
         result = (avg_values * masks_exp).sum(dim=0)
         
-        # Create a mask for the remaining area
+        # Create a mask for uncoverd area
         remaining_mask = 1 - masks_exp.sum(dim=0, keepdim=True).clamp_(0, 1)
         remaining_area = remaining_mask.sum()
         remaining_sum = (image_exp * remaining_mask).sum(dim=(1, 2), keepdim=True)
@@ -131,7 +133,7 @@ class SegNAFNet(nn.Module):
         #seg_info = F.relu(seg_info)
 
         for b in range(B):
-            seg_info[b] = self.mask_average(seg_info[b], self.check_mask_size(masks[b]), is_training=self.training)
+            seg_info[b] = self.mask_average(seg_info[b], self.check_mask_size(masks[b]), dropout=self.mask_dropout, is_training=self.training)
         
         x = self.intro(torch.cat([inp, seg_info], dim=1))
 

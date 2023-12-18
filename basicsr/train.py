@@ -89,8 +89,7 @@ def init_loggers(opt):
         init_wandb_logger(opt)
     tb_logger = None
     if opt['logger'].get('use_tb_logger') and 'debug' not in opt['name']:
-        # tb_logger = init_tb_logger(log_dir=f'./logs/{opt['name']}') #mkdir logs @CLY
-        tb_logger = init_tb_logger(log_dir=osp.join('logs', opt['name']))
+        tb_logger = init_tb_logger(log_dir=osp.join('tb_logger', opt['name']))
     return logger, tb_logger
 
 
@@ -276,7 +275,7 @@ def main():
             #     exit(0)
             iter_time = time.time() - iter_time
             # log
-            if current_iter % opt['logger']['print_freq'] == 0:
+            if current_iter % opt['logger']['print_freq'] == 0 or current_iter == 1:
                 log_vars = {'epoch': epoch, 'iter': current_iter, 'total_iter': total_iters}
                 log_vars.update({'lrs': model.get_current_learning_rate()})
                 log_vars.update({'time': iter_time, 'data_time': data_time})
@@ -290,7 +289,7 @@ def main():
                 model.save(epoch, current_iter)
 
             # validation
-            if opt.get('val') is not None and (current_iter % opt['val']['val_freq'] == 0 or current_iter == 1000):
+            if opt.get('val') is not None and (current_iter % opt['val']['val_freq'] == 0 or current_iter == 1):
             # if opt.get('val') is not None and (current_iter % opt['val']['val_freq'] == 0):
                 rgb2bgr = opt['val'].get('rgb2bgr', True)
                 # wheather use uint8 image to compute metrics

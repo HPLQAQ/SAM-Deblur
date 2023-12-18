@@ -13,35 +13,57 @@ Todo:
 - [x] Full code release with instruction
 - [x] Training and testing options
 - [x] Pretrained models and prepared data
-- [ ] Instructions for data preparation code
+- [x] Instructions for data preparation code
 
 ### Installation
 This implementation is based on [BasicSR](https://github.com/xinntao/BasicSR) which is an open source toolbox for image/video restoration tasks.
 
 ```python
-python 3.9
+python 3.10.13
 pytorch 1.13.1
-cuda 12.2
+cuda 11.7
 ```
 
 ```
-conda create -n sam-deblur python=3.9
+conda create -n sam-deblur python=3.10
 conda activate sam-deblur
-conda install pytorch==1.13.1 torchvision==0.14.1 -c pytorch
+conda install pytorch==1.13.1 torchvision==0.14.1 torchaudio==0.13.1 pytorch-cuda=11.7 -c pytorch -c nvidia
 ```
 
 ```
 git clone git@github.com:HPLQAQ/SAM-Deblur.git
 cd SAM-Deblur
 pip install -r requirements.txt
-python setup.py develop --no_cuda_ext
+pip install -e .
 ```
-### Prepare Data
-Instructions to using the code for data preparation will be released soon.  
-Download prepared data for experiment from [Baidu Netdisk](https://pan.baidu.com/s/1jHgwKqFuyyy8yixByiEfCg?pwd=hplv)|[Onedrive]()
+### Prepare Data and Pre-trained Models
 
-### Results and Pre-trained Models
-Pre-trained models are under **experiments/pretrained_models**
+Pre-trained models are under **experiments/pretrained_models**.
+
+Download prepared data for experiment from [`Baidu Netdisk`](https://pan.baidu.com/s/1jHgwKqFuyyy8yixByiEfCg?pwd=hplv)|[`Onedrive`](https://1drv.ms/f/s!Ar-cR-XYHDTtgt8pYy2MBqQvroXl-Q?e=U7o4xc).  
+If you only want to run our deblur pipeline, download test/val datasets(GoPro, RealBlurJ, REDS, ReLoBlur provided). if you want to train the model yourself, download train datasets(GoPro provided).
+Unzip data and put under **datasets** dir for experiments.
+
+Prepared data comes from original datasets which are processed using code under **scripts/data_preparation**. *Use datasets uploaded above and your don't have to run the scripts your self.*
+- **scripts/data_preparation/1_create_masks_with_sam.py**: Create masks for concat method.
+- **scripts/data_preparation/2_masks_to_grouped_masks.py**: Create grouped_masks from masks for our MAP method.
+- **scripts/crop_\*\*\***: Create crops from inputs for training.
+- **scripts/lmdb_\*\*\***: Create lmdb from original disk for faster data loading. (not necessary)
+
+### Quick Start
+
+Test the pretrained model on REDS(can be any of the four datasets) with follow command. Visualization will be under directory **results**.
+
+```
+python basicsr/test.py -opt options/test/REDS/SegNAFNet.yml
+```
+
+Options' corresponding method see [experiments\pretrained_models](experiments\pretrained_models\README.md)
+
+Detailed instructions under [scripts/test.md](scripts/test.md).  
+To train model, follow instructions under [scripts/train.md](scripts/train.md).
+
+### Results
 
 Best results are highlighted in bold. **w/o SAM**: Not using SAM priors, **CAT**: concatenation method, **MAP**: Using SAM-Deblur framework w/o mask dropout, **Ours**: Using SAM-Deblur framework.  
 **Mode Collapse Rate** (MCR) is calculated using a threshold-based method. Specifically, when \\( PSNR(I_bm, I_gt) - PSNR(I_dm, I_gt) > 3 \\) (where \\( I_gt \\) is the ground truth), we consider the model to have undergone "mode collapse". A lower MCR suggests stronger generalization capabilities of the model.

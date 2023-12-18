@@ -1,11 +1,4 @@
-# ------------------------------------------------------------------------
-# Copyright (c) 2022 megvii-model. All Rights Reserved.
-# ------------------------------------------------------------------------
-# Modified from BasicSR (https://github.com/xinntao/BasicSR)
-# Copyright 2018-2020 BasicSR Authors
-# ------------------------------------------------------------------------
-# general settings
-name: SegNAFNet-ReLoBlur-ori-width32-test
+name: Test-ReLoBlur-SegNAFNet-no-dropout
 model_type: ImageRestorationModel
 scale: 1
 num_gpu: 1 # set num_gpu: 0 for cpu mode
@@ -14,17 +7,14 @@ grouped_masks: true
 
 # dataset and data loader settings
 datasets:
-
   test:
-    name: ReLoBlur-ori-test
+    name: ReLoBlur-test
     type: PairedImageGroupMaskDataset
-
-    dataroot_gt: ./datasets/ReLoBlur-ori/test/target.lmdb
-    dataroot_lq: ./datasets/ReLoBlur-ori/test/input.lmdb
-    dataroot_mask: ./datasets/ReLoBlur-ori/test/grouped_masks.lmdb
-
+    dataroot_gt: ./datasets/ReLoBlur/test/target
+    dataroot_lq: ./datasets/ReLoBlur/test/input
+    dataroot_mask: ./datasets/ReLoBlur/test/grouped_masks
     io_backend:
-      type: lmdb
+      type: disk
 
 # network structures
 network_g:
@@ -37,7 +27,7 @@ network_g:
 
 # path
 path:
-  pretrain_network_g: experiments/pretrained_models/SegNAF-Gopro-3plus1-seg2.pth
+  pretrain_network_g: experiments/pretrained_models/SegNAFNet-no-dropout-GoPro.pth
   strict_load_g: true
   resume_state: ~
 
@@ -45,8 +35,6 @@ path:
 val:
   save_img: true
   grids: false
-
-
   metrics:
     psnr: # metric name, can be arbitrary
       type: calculate_psnr

@@ -8,7 +8,8 @@ experiments/*
 !experiments/pretrained_models
 datasets/*
 !datasets/README.md
-tb_logger/*
+tb_logger/
+results/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

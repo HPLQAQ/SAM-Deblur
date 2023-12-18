@@ -1,11 +1,4 @@
-# ------------------------------------------------------------------------
-# Copyright (c) 2022 megvii-model. All Rights Reserved.
-# ------------------------------------------------------------------------
-# Modified from BasicSR (https://github.com/xinntao/BasicSR)
-# Copyright 2018-2020 BasicSR Authors
-# ------------------------------------------------------------------------
-# general settings
-name: ReLoBlur-NAFNet-width32-nolocal-test
+name: Test-REDS-NAFNet
 model_type: ImageRestorationModel
 scale: 1
 num_gpu: 1 # set num_gpu: 0 for cpu mode
@@ -13,16 +6,13 @@ manual_seed: 10
 
 # dataset and data loader settings
 datasets:
-
   test:
-    name: ReLoBlur-ori-test
+    name: REDS-test
     type: PairedImageDataset
-
-    dataroot_gt: ./datasets/ReLoBlur-ori/test/target.lmdb
-    dataroot_lq: ./datasets/ReLoBlur-ori/test/input.lmdb
-
+    dataroot_gt: ./datasets/REDS/val/target
+    dataroot_lq: ./datasets/REDS/val/input
     io_backend:
-      type: lmdb
+      type: disk
 
 # network structures
 network_g:
@@ -34,7 +24,7 @@ network_g:
 
 # path
 path:
-  pretrain_network_g: experiments/pretrained_models/NAFNet-GoPro-width32.pth
+  pretrain_network_g: experiments/pretrained_models/NAFNet-GoPro.pth
   strict_load_g: true
   resume_state: ~
 
@@ -42,8 +32,6 @@ path:
 val:
   save_img: true
   grids: false
-
-
   metrics:
     psnr: # metric name, can be arbitrary
       type: calculate_psnr

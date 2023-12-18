@@ -1,11 +1,4 @@
-# ------------------------------------------------------------------------
-# Copyright (c) 2022 megvii-model. All Rights Reserved.
-# ------------------------------------------------------------------------
-# Modified from BasicSR (https://github.com/xinntao/BasicSR)
-# Copyright 2018-2020 BasicSR Authors
-# ------------------------------------------------------------------------
-# general settings
-name: GoPro-NAFNet-width32-test
+name: Test-ReLoBlur-NAFNet
 model_type: ImageRestorationModel
 scale: 1
 num_gpu: 1 # set num_gpu: 0 for cpu mode
@@ -13,20 +6,17 @@ manual_seed: 10
 
 # dataset and data loader settings
 datasets:
-
   test:
-    name: gopro-test
+    name: ReLoBlur-test
     type: PairedImageDataset
-
-    dataroot_gt: ./datasets/GoPro/test/target.lmdb
-    dataroot_lq: ./datasets/GoPro/test/input.lmdb
-
+    dataroot_gt: ./datasets/ReLoBlur/test/target
+    dataroot_lq: ./datasets/ReLoBlur/test/input
     io_backend:
-      type: lmdb
+      type: disk
 
 # network structures
 network_g:
-  type: NAFNetLocal
+  type: NAFNet
   width: 32
   enc_blk_nums: [1, 1, 1, 28]
   middle_blk_num: 1
@@ -34,7 +24,7 @@ network_g:
 
 # path
 path:
-  pretrain_network_g: experiments/pretrained_models/NAFNet-GoPro-width32.pth
+  pretrain_network_g: experiments/pretrained_models/NAFNet-GoPro.pth
   strict_load_g: true
   resume_state: ~
 
@@ -42,8 +32,6 @@ path:
 val:
   save_img: true
   grids: false
-
-
   metrics:
     psnr: # metric name, can be arbitrary
       type: calculate_psnr

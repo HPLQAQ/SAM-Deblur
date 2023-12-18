@@ -1,11 +1,4 @@
-# ------------------------------------------------------------------------
-# Copyright (c) 2022 megvii-model. All Rights Reserved.
-# ------------------------------------------------------------------------
-# Modified from BasicSR (https://github.com/xinntao/BasicSR)
-# Copyright 2018-2020 BasicSR Authors
-# ------------------------------------------------------------------------
-# general settings
-name: RealBlurJ-SegNAFNet-width32-seg2-nolocal-nodrop-test
+name: Test-REDS-SegNAFNet-no-dropout
 model_type: ImageRestorationModel
 scale: 1
 num_gpu: 1 # set num_gpu: 0 for cpu mode
@@ -14,17 +7,14 @@ grouped_masks: true
 
 # dataset and data loader settings
 datasets:
-
   test:
-    name: RealBlurJ-test
+    name: REDS-test
     type: PairedImageGroupMaskDataset
-
-    dataroot_gt: ./datasets/RealBlurJ/test/target.lmdb
-    dataroot_lq: ./datasets/RealBlurJ/test/input.lmdb
-    dataroot_mask: ./datasets/RealBlurJ/test/grouped_masks.lmdb
-
+    dataroot_gt: ./datasets/REDS/val/target
+    dataroot_lq: ./datasets/REDS/val/input
+    dataroot_mask: ./datasets/REDS/val/grouped_masks
     io_backend:
-      type: lmdb
+      type: disk
 
 # network structures
 network_g:
@@ -37,7 +27,7 @@ network_g:
 
 # path
 path:
-  pretrain_network_g: experiments/pretrained_models/SegNAFNet-Gopro-width32-seg2-nodrop.pth
+  pretrain_network_g: experiments/pretrained_models/SegNAFNet-no-dropout-GoPro.pth
   strict_load_g: true
   resume_state: ~
 
@@ -45,8 +35,6 @@ path:
 val:
   save_img: true
   grids: false
-
-
   metrics:
     psnr: # metric name, can be arbitrary
       type: calculate_psnr

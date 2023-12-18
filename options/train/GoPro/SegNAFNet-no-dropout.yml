@@ -1,26 +1,20 @@
-# ------------------------------------------------------------------------
-# Copyright (c) 2023 Siwei Li.
-# ------------------------------------------------------------------------
-# Modified from NAFNet (https://github.com/megvii-research/NAFNet)
-# Copyright 2023 NAFNet Authors
-# ------------------------------------------------------------------------
-# general settings
-name: NAFNet-GoPro-width32
+name: SegNAFNet-no-dropout-GoPro
 model_type: ImageRestorationModel
 scale: 1
 num_gpu: 1
-manual_seed: 10
+manual_seed: 42
+grouped_masks: True
 
 datasets:
   train:
     name: gopro-train
-    type: PairedImageMaskDataset
-    dataroot_gt: ./datasets/GoPro/train/sharp_crops.lmdb
-    dataroot_lq: ./datasets/GoPro/train/blur_crops.lmdb
-    dataroot_mask: ./datasets/GoPro/train/input_predict_mask_crops.lmdb
+    type: PairedImageGroupMaskDataset
+    dataroot_gt: ./datasets/GoPro/train/sharp_crops
+    dataroot_lq: ./datasets/GoPro/train/blur_crops
+    dataroot_mask: ./datasets/GoPro/train/grouped_masks_crops
     filename_tmpl: '{}'
     io_backend:
-      type: lmdb
+      type: disk
 
     gt_size: 256
     use_flip: true
@@ -28,24 +22,25 @@ datasets:
 
     # data loader
     use_shuffle: true
-    num_worker_per_gpu: 8
-    batch_size_per_gpu: 8
+    num_worker_per_gpu: 16
+    batch_size_per_gpu: 32
     dataset_enlarge_ratio: 1
     prefetch_mode: ~
 
   val:
     name: gopro-test
-    type: PairedImageMaskDataset
-    dataroot_gt: ./datasets/GoPro/test/target.lmdb
-    dataroot_lq: ./datasets/GoPro/test/input.lmdb
-    dataroot_mask: ./datasets/GoPro/test/input_predict_mask.lmdb
+    type: PairedImageGroupMaskDataset
+    dataroot_gt: ./datasets/GoPro/test/target
+    dataroot_lq: ./datasets/GoPro/test/input
+    dataroot_mask: ./datasets/GoPro/test/grouped_masks
     io_backend:
-      type: lmdb
-
+      type: disk
 
 network_g:
   type: SegNAFNetLocal
   width: 32
+  seg_channel: 2
+  mask_dropout: 0.0
   enc_blk_nums: [1, 1, 1, 28]
   middle_blk_num: 1
   dec_blk_nums: [1, 1, 1, 1]

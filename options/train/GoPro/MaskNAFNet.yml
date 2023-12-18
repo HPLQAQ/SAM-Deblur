@@ -1,51 +1,44 @@
-# ------------------------------------------------------------------------
-# Copyright (c) 2023 Siwei Li.
-# ------------------------------------------------------------------------
-# Modified from NAFNet (https://github.com/megvii-research/NAFNet)
-# Copyright 2023 NAFNet Authors
-# ------------------------------------------------------------------------
-# general settings
-name: NAFNet-GoPro-width32
+name: MaskNAFNet-GoPro
 model_type: ImageRestorationModel
 scale: 1
 num_gpu: 1
-manual_seed: 10
+manual_seed: 42
 
 datasets:
   train:
     name: gopro-train
     type: PairedImageMaskDataset
-    dataroot_gt: ./datasets/GoPro/train/sharp_crops.lmdb
-    dataroot_lq: ./datasets/GoPro/train/blur_crops.lmdb
-    dataroot_mask: ./datasets/GoPro/train/input_predict_mask_crops.lmdb
+    dataroot_gt: ./datasets/GoPro/train/sharp_crops
+    dataroot_lq: ./datasets/GoPro/train/blur_crops
+    dataroot_mask: ./datasets/GoPro/train/blur_predeblur_mask_crops
     filename_tmpl: '{}'
     io_backend:
-      type: lmdb
+      type: disk
 
     gt_size: 256
-    use_flip: true
-    use_rot: true
-
+    use_flip: True
+    use_rot: True
+    use_shuffle: True
+    
     # data loader
-    use_shuffle: true
-    num_worker_per_gpu: 8
-    batch_size_per_gpu: 8
+    num_worker_per_gpu: 16
+    batch_size_per_gpu: 32
     dataset_enlarge_ratio: 1
     prefetch_mode: ~
 
   val:
     name: gopro-test
     type: PairedImageMaskDataset
-    dataroot_gt: ./datasets/GoPro/test/target.lmdb
-    dataroot_lq: ./datasets/GoPro/test/input.lmdb
-    dataroot_mask: ./datasets/GoPro/test/input_predict_mask.lmdb
+    dataroot_gt: ./datasets/GoPro/test/target
+    dataroot_lq: ./datasets/GoPro/test/input
+    dataroot_mask: ./datasets/GoPro/test/input_predict_mask
     io_backend:
-      type: lmdb
-
+      type: disk
 
 network_g:
-  type: SegNAFNetLocal
+  type: NAFNetLocal
   width: 32
+  mask: True
   enc_blk_nums: [1, 1, 1, 28]
   middle_blk_num: 1
   dec_blk_nums: [1, 1, 1, 1]
@@ -83,7 +76,6 @@ val:
   val_freq: !!float 1e4
   save_img: false
 
-
   metrics:
     psnr: # metric name, can be arbitrary
       type: calculate_psnr
@@ -107,3 +99,4 @@ logger:
 dist_params:
   backend: nccl
   port: 29500
+
