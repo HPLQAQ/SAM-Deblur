@@ -25,7 +25,7 @@ cuda 12.2
 ```
 
 ```
-conda create -n sam-deblur python=3.10
+conda create -n sam-deblur python=3.9
 conda activate sam-deblur
 conda install pytorch==1.13.1 torchvision==0.14.1 -c pytorch
 ```
