@@ -38,9 +38,13 @@ pip install -e .
 ```
 ### Prepare Data and Pre-trained Models
 
-Pre-trained models are under **experiments/pretrained_models**.
+Pre-trained models are managed with [Git LFS](https://git-lfs.com/) under **experiments/pretrained_models**. Make sure your have git lfs installed, if not, try `git lfs install`. Then pull models with instruction bellow.
 
-Download prepared data for experiment from [`Baidu Netdisk`](https://pan.baidu.com/s/1jHgwKqFuyyy8yixByiEfCg?pwd=hplv)|[`Onedrive`](https://1drv.ms/f/s!Ar-cR-XYHDTtgt8pYy2MBqQvroXl-Q?e=U7o4xc).  
+```
+git lfs pull
+```
+
+Download prepared data for experiment from [Baidu Netdisk](https://pan.baidu.com/s/1jHgwKqFuyyy8yixByiEfCg?pwd=hplv)|[Onedrive](https://1drv.ms/f/s!Ar-cR-XYHDTtgt8pYy2MBqQvroXl-Q?e=U7o4xc).  
 If you only want to run our deblur pipeline, download test/val datasets(GoPro, RealBlurJ, REDS, ReLoBlur provided). if you want to train the model yourself, download train datasets(GoPro provided).
 Unzip data and put under **datasets** dir for experiments.
 
