@@ -1,6 +1,7 @@
 # ignore files
 *.code-workspace
 *.log
+*.pth
 version.py
 
 # ignore folders
