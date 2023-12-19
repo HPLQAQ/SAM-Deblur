@@ -64,6 +64,8 @@ Options' corresponding method see [pretrained_models README](experiments/pretrai
 Detailed instructions under [scripts/test.md](scripts/test.md).  
 To train model, follow instructions under [scripts/train.md](scripts/train.md).
 
+The core implementation is at [SegNAFNet_arch.py](basicsr/models/archs/SegNAFNet_arch.py)
+
 ### Results
 
 Best results are highlighted in bold. **w/o SAM**: Not using SAM priors, **CAT**: concatenation method, **MAP**: Using SAM-Deblur framework w/o mask dropout, **Ours**: Using SAM-Deblur framework.  
