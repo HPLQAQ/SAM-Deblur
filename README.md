@@ -42,7 +42,7 @@ Download pre-trained models for experiments from [Baidu Netdisk](https://pan.bai
 Put under **experiments/pretrained_models**.
 
 Download prepared data for experiments from [Baidu Netdisk](https://pan.baidu.com/s/1jHgwKqFuyyy8yixByiEfCg?pwd=hplv)|[Onedrive](https://1drv.ms/f/s!Ar-cR-XYHDTtgt8pYy2MBqQvroXl-Q?e=U7o4xc).  
-If you only want to run our deblur pipeline, download test/val datasets(GoPro, RealBlurJ, REDS, ReLoBlur provided). if you want to train the model yourself, download train datasets(GoPro provided).  
+If you only want to run our deblur pipeline, download test/val datasets(GoPro, RealBlurJ, REDS, ReLoBlur provided). if you want to train the model yourself, download train datasets(GoPro provided). Check [datasets README](datasets/README.md) for standard dataset structure.
 Unzip data and put under **datasets** dir for experiments.
 
 Prepared data comes from original datasets which are processed using code under **scripts/data_preparation**. *Use datasets uploaded above and your don't have to run the scripts your self.*
@@ -59,7 +59,7 @@ Test the pretrained model on REDS(can be any of the four datasets) with follow c
 python basicsr/test.py -opt options/test/REDS/SegNAFNet.yml
 ```
 
-Options' corresponding method see [experiments\pretrained_models](experiments\pretrained_models\README.md)
+Options' corresponding method see [pretrained_models README](experiments/pretrained_models/README.md)
 
 Detailed instructions under [scripts/test.md](scripts/test.md).  
 To train model, follow instructions under [scripts/train.md](scripts/train.md).
