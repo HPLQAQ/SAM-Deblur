@@ -5,7 +5,7 @@ Implementation of the paper [SAM-Deblur: Let Segment Anything Boost Image Deblur
 
 ##### [Siwei Li](https://hplqaq.github.io/)\*, [Mingxuan Liu](https://arktis2022.github.io/)\*, Yating Zhang, Shu Chen, [Haoxiang Li](https://lihaoxiang-20.github.io/), Zifei Dou, [Hong Chen](http://hongchen.ime.tsinghua.edu.cn/)
 
-[[`Project`](https://hplqaq.github.io/projects/sam-deblur)] [[`Paper`](https://arxiv.org/abs/2309.02270)] [[`BibTeX`](https://hplqaq.github.io/projects/sam-deblur.assets/bib_sam_deblur.txt)]
+[[`Project`](https://hplqaq.github.io/projects/sam-deblur)] [[`Paper`](https://arxiv.org/abs/2309.02270v2)] [[`BibTeX`](https://hplqaq.github.io/projects/sam-deblur.assets/bib_sam_deblur.txt)]
 
 ![SAM design](assets/SAM-Deblur-pipeline.png)
 
