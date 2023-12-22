@@ -31,7 +31,7 @@ conda install pytorch==1.13.1 torchvision==0.14.1 torchaudio==0.13.1 pytorch-cud
 ```
 
 ```
-git clone git@github.com:HPLQAQ/SAM-Deblur.git
+git clone https://github.com/HPLQAQ/SAM-Deblur.git
 cd SAM-Deblur
 pip install -r requirements.txt
 pip install -e .
